@@ -1,0 +1,5 @@
+authsure:
+  url: https://demo.authsure.io
+  flow: SpringDemo
+  username: demoapp
+  password: authsure
