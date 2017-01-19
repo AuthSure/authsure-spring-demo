@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public AuthSureAuthenticationFilter authSureAuthenticationFilter() throws Exception{
-		AuthSureAuthenticationFilter filter = new AuthSureAuthenticationFilter();
+		AuthSureAuthenticationFilter filter = new AuthSureAuthenticationFilter(authSureClient(), flow);
 		filter.setAuthenticationManager(authenticationManager());
 		return filter;
 	}
@@ -73,8 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling()
 				.authenticationEntryPoint(authSureAuthenticationEntryPoint())
 				.and()
-				.formLogin()
-				.and()
 				.logout()
 				.logoutSuccessHandler(authSureLogoutSuccessHandler())
 				// This was done because we don't want to complicate the demo with CSRF forcing a POST on logout
@@ -82,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// See https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.and()
+				// Protect some resources so we can demo
 				.authorizeRequests()
 						.antMatchers("/protected").authenticated()
 						.antMatchers("/another_protected").authenticated();
