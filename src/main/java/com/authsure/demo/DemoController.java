@@ -24,4 +24,9 @@ public class DemoController {
 		return "another_protected";
 	}
 
+	@RequestMapping("/logout_success")
+	public String logoutSuccessPage() {
+		return "logout_success";
+	}
+
 }
