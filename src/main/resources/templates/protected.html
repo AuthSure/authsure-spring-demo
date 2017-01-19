@@ -10,7 +10,7 @@
 	<div class="col-xs-10 col-xs-offset-1">
 
 		<h1>This page was protected by </h1>
-		<img src="/authsure.png" />
+		<img th:src="@{/authsure.png}" />
 
 		<p>
 			You are authenticated as the user <strong><span th:text="${#httpServletRequest.getRemoteUser()}" /></strong>.

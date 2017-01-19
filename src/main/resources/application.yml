@@ -1,3 +1,5 @@
+server:
+  context-path: /spring-demo
 authsure:
   url: https://demo.authsure.io
   flow: SpringDemo
