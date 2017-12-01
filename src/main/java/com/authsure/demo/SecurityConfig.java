@@ -16,74 +16,79 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
+ * Security configuration for application.
+ *
  * @author Erik R. Jensen
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Value("${authsure.url}")
-	private String url;
+  @Value("${authsure.url}")
+  private String url;
 
-	@Value("${authsure.flow}")
-	private String flow;
+  @Value("${authsure.flow}")
+  private String flow;
 
-	@Value("${authsure.username}")
-	private String username;
+  @Value("${authsure.username}")
+  private String username;
 
-	@Value("${authsure.password}")
-	private String password;
+  @Value("${authsure.password}")
+  private String password;
 
-	@Bean
-	public AuthSureClient authSureClient() {
-		return new AuthSureClient(url, username, password);
-	}
+  @Bean
+  public AuthSureClient authSureClient() {
+    return new AuthSureClient(url, username, password);
+  }
 
-	@Bean
-	public AuthSureAuthenticationEntryPoint authSureAuthenticationEntryPoint() {
-		return new AuthSureAuthenticationEntryPoint(authSureClient(), flow);
-	}
+  @Bean
+  public AuthSureAuthenticationEntryPoint authSureAuthenticationEntryPoint() {
+    return new AuthSureAuthenticationEntryPoint(authSureClient(), flow);
+  }
 
-	@Bean
-	public AuthSureLogoutSuccessHandler authSureLogoutSuccessHandler() {
-		return new AuthSureLogoutSuccessHandler(authSureClient(), flow);
-	}
+  @Bean
+  public AuthSureLogoutSuccessHandler authSureLogoutSuccessHandler() {
+    return new AuthSureLogoutSuccessHandler(authSureClient(), flow);
+  }
 
-	@Bean
-	public AuthSureAuthenticationFilter authSureAuthenticationFilter() throws Exception{
-		AuthSureAuthenticationFilter filter = new AuthSureAuthenticationFilter(authSureClient(), flow);
-		filter.setAuthenticationManager(authenticationManager());
-		return filter;
-	}
+  @Bean
+  public AuthSureAuthenticationFilter authSureAuthenticationFilter() throws Exception {
+    AuthSureAuthenticationFilter filter = new AuthSureAuthenticationFilter(authSureClient(), flow);
+    filter.setAuthenticationManager(authenticationManager());
+    return filter;
+  }
 
-	@Bean
-	public AuthSureAuthenticationProvider authSureAuthenticationProvider() {
-		return new AuthSureAuthenticationProvider(authSureClient());
-	}
+  @Bean
+  public AuthSureAuthenticationProvider authSureAuthenticationProvider() {
+    return new AuthSureAuthenticationProvider(authSureClient());
+  }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(authSureAuthenticationProvider());
-	}
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.authenticationProvider(authSureAuthenticationProvider());
+  }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.addFilterAfter(authSureAuthenticationFilter(), AbstractPreAuthenticatedProcessingFilter.class)
-				.exceptionHandling()
-				.authenticationEntryPoint(authSureAuthenticationEntryPoint())
-				.and()
-				.logout()
-				.logoutSuccessHandler(authSureLogoutSuccessHandler())
-				// This was done because we don't want to complicate the demo with CSRF forcing a POST on logout
-				// See http://docs.spring.io/spring-security/site/docs/3.2.4.RELEASE/reference/htmlsingle/#csrf-logout
-				// See https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.and()
-				// Protect some resources so we can demo
-				.authorizeRequests()
-						.antMatchers("/protected").authenticated()
-						.antMatchers("/another_protected").authenticated();
-	}
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+        .addFilterAfter(
+            authSureAuthenticationFilter(), AbstractPreAuthenticatedProcessingFilter.class)
+        .exceptionHandling()
+        .authenticationEntryPoint(authSureAuthenticationEntryPoint())
+        .and()
+        .logout()
+        .logoutSuccessHandler(authSureLogoutSuccessHandler())
+        // This was done because we don't want to complicate the demo with CSRF forcing a
+        // POST on logout See
+        // http://docs.spring.io/spring-security/site/docs/3.2.4.RELEASE/reference/htmlsingle/
+        // #csrf-logout
+        // See https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .and()
+        // Protect some resources so we can demo
+        .authorizeRequests()
+        .antMatchers("/protected").authenticated()
+        .antMatchers("/another_protected").authenticated();
+  }
 
 }

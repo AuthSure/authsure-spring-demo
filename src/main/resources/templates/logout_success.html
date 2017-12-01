@@ -1,24 +1,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="template :: head(page='Home')" />
-<body>
-<div th:replace="template :: header" />
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12 text-center">
-			<i class="fa fa-check-circle-o" aria-hidden="true" style="font-size: 13em; color: #4f87c6"></i>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-12 text-center">
-			<h2>You are logged out!</h2>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-12 text-center">
-			<a class="btn btn-primary" th:href="@{/}">Back to the start</a>
-		</div>
-	</div>
-</div>
-<div th:replace="template :: endOfBody" th:remove="tag" />
-</body>
+  <head th:replace="template :: head(page='Home')"/>
+  <body>
+    <div th:replace="template :: header"/>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <i class="fa fa-check-circle-o" aria-hidden="true"
+             style="font-size: 13em; color: #4f87c6"></i>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <h2>You are logged out!</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <a class="btn btn-primary" th:href="@{/}">Back to the start</a>
+        </div>
+      </div>
+    </div>
+    <div th:replace="template :: endOfBody" th:remove="tag"/>
+  </body>
 </html>
