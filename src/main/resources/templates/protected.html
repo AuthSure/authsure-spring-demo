@@ -1,22 +1,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="template :: head(page='Home')" />
-<body>
-<div th:replace="template :: header" />
-<div class="container">
-	<div class="row">
-		<div class="col-xs-6 col-xs-offset-3 text-center">
-			<h2>Welcome <span th:text="${#httpServletRequest.getRemoteUser()}" style="color: #4f87c6"/>!</h2>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-6 col-xs-offset-3 text-center">
+  <head th:replace="template :: head(page='Home')"/>
+  <body>
+    <div th:replace="template :: header"/>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 text-center">
+          <h2>Welcome <span th:text="${#httpServletRequest.getRemoteUser()}"
+                            style="color: #4f87c6"/>!</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 text-center">
 
-			<p>
-				<a class="btn btn-primary" th:href="@{/another_protected}">Click to continue to another authenticated page</a>
-			</p>
-		</div>
-	</div>
-</div>
-<div th:replace="template :: endOfBody" th:remove="tag" />
-</body>
+          <p>
+            <a class="btn btn-primary" th:href="@{/another_protected}">Click to continue to
+              another authenticated page</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div th:replace="template :: endOfBody" th:remove="tag"/>
+  </body>
 </html>
